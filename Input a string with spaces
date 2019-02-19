@@ -1,0 +1,9 @@
+int t;
+cin>>t;
+cin.ignore();         // to empty the input buffer.
+while(t--)
+{
+  string s;
+  getline(cin,s);
+}
+
