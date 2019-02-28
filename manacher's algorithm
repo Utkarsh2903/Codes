@@ -1,0 +1,58 @@
+//Given a string S, find the longest palindromic substring in the string S.
+
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    string s;
+    cin>>s;
+    int n=s.length(),l=0,r=-1,max1=0,max2=0,p1,p2;
+    vector<int>v1(n),v2(n);
+    for(int i=0;i<n;i++)                    // when length of substring is odd.
+    {
+        int k=(i>r?0:min(v1[l+k-i],r-i));   // initially zero.
+        while(i+k<n&&i-k>=0&&s[i-k]==s[i+k])
+        k++;
+        v1[i]=k--;
+        if(i+k>r)
+        {
+            l=i-k;
+            r=i+k;
+        }
+        if(v1[i]>max1)
+        {
+            max1=v1[i];
+            p1=i;
+        }
+    }
+    l=0,r=-1;
+    for(int i=0;i<n;i++)                  // when length of substring is even 
+    {
+        int k=(i>r?0:min(v1[l+k-i+1],r-i+1))+1;   // initially one.
+        while(i+k-1<n&&i-k>=0&&s[i-k]==s[i+k-1])
+        k++;
+        v2[i]=--k;
+        if(i+k-1>r)
+        {
+            l=i-k;
+            r=i+k-1;
+        }
+        if(v2[i]>max2)
+        {
+            max2=v2[i];
+            p2=i;
+        }
+    }
+    if(2*max1-1>2*max2)  
+    {
+        cout<<2*max1-1<<endl;
+        for(int i=p1-max1/2;i<=p1+max1/2;i++)
+        cout<<s[i];
+    }
+    else
+    {
+        cout<<2*max2<<endl;
+        for(int i=p2-max2;i<p2+max2;i++)
+        cout<<s[i];
+    }
+}
