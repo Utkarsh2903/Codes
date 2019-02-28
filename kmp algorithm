@@ -1,0 +1,47 @@
+   // Given 2 strings, P and T, find the number of occurrences of P in T.
+   
+    #include<bits/stdc++.h>
+    using namespace std;
+    void compute(string p,int m,int lps[])  //  lps of the pattern
+    {
+        int len=lps[0]=0,i=1;
+        while(i<m)
+        {
+            while(len && p[i] != p[len])
+        	   	len=lps[len-1];
+            
+            if(p[i]==p[len])
+                ++len;
+            lps[i++]=len;
+        }
+    }
+    int kmp(string p,string t)
+    {
+        int m=p.length() , n=t.length() , i=0 , j=0 , count=0 , lps[m];
+        compute(p,m,lps);  // to compute lps.
+        while(i<n)         // to check the no of occurences.
+        {
+            if(p[j]==t[i])
+                j++ , i++;
+                
+            if(j==m)      // it means full pattern is present
+            {
+                j=lps[j-1];
+                count++;
+            }
+            else if(i<n && p[j]!=t[i])
+            {
+                if(j!=0)
+                j=lps[j-1];
+                else
+                i=i+1;
+            }
+        }
+        cout<<count<<endl;
+    }
+    int main()
+    {
+        string p,t;   // p is to be find in string t
+        cin>>p>>t;
+        kmp(p,t);
+    }
